@@ -37,7 +37,7 @@ if submitted or ('quiz_data_list' in st.session_state):
             "Please fill out the OpenAI API Key to proceed. If you don't have one, you can obtain it [here](https://platform.openai.com/account/api-keys).")
         st.stop()
 
-    with st.spinner("Crafting your quiz...🤓"):
+    with st.spinner("Crafting your quiz..."):
         if submitted:
             video_id = extract_video_id_from_url(YOUTUBE_URL)
             video_transcription = get_transcript_text(video_id)
@@ -58,7 +58,7 @@ if submitted or ('quiz_data_list' in st.session_state):
                 st.session_state.correct_answers.append(correct_answer)
 
         with st.form(key='quiz_form'):
-            st.subheader("🧠 Quiz Time: Test Your Knowledge!", anchor=False)
+            st.subheader("Your Quiz:", anchor=False)
             for i, q in enumerate(st.session_state.quiz_data_list):
                 options = st.session_state.randomized_options[i]
                 default_index = st.session_state.user_answers[
@@ -68,7 +68,7 @@ if submitted or ('quiz_data_list' in st.session_state):
                 # Update the stored answer right after fetching it
                 st.session_state.user_answers[i] = user_choice_index
 
-            results_submitted = st.form_submit_button(label='Unveil My Score!')
+            results_submitted = st.form_submit_button(label='How did I do?')
 
             if results_submitted:
                 score = sum([ua == st.session_state.randomized_options[i].index(ca) for i, (ua, ca) in enumerate(
