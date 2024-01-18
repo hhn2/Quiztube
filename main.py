@@ -1,5 +1,7 @@
 import streamlit as st
-from helpers.youtube_utils import extract_video_id_from_url, get_transcript_text
+
+from helpers.youtube_utils import extract_video_id_from_url
+from helpers.youtube_utils import get_transcript_text
 from helpers.openai_utils import get_quiz_data
 from helpers.quiz_utils import string_to_list, get_randomized_options
 
@@ -73,8 +75,8 @@ if submitted or ('quiz_data_list' in st.session_state):
             if results_submitted:
                 score = sum([ua == st.session_state.randomized_options[i].index(ca) for i, (ua, ca) in enumerate(
                     zip(st.session_state.user_answers, st.session_state.correct_answers))])
-                st.success(f"Your score: {
-                           score}/{len(st.session_state.quiz_data_list)}")
+                st.success(f'''Your score:
+                           {score}/{len(st.session_state.quiz_data_list)}''')
 
                 # Check if all answers are correct
                 if score == len(st.session_state.quiz_data_list):
@@ -86,8 +88,9 @@ if submitted or ('quiz_data_list' in st.session_state):
                         st.warning(
                             f"Almost perfect! You got 1 question wrong. Let's review it:")
                     else:
-                        st.warning(f"Almost there! You got {
-                                   incorrect_count} questions wrong. Let's review them:")
+                        st.warning(f'''Almost there! You got
+                                   {
+                                   incorrect_count} questions wrong. Let's review them:''')
 
                 for i, (ua, ca, q, ro) in enumerate(zip(st.session_state.user_answers, st.session_state.correct_answers, st.session_state.quiz_data_list, st.session_state.randomized_options)):
                     with st.expander(f"Question {i + 1}", expanded=False):
